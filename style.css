@@ -1,0 +1,35 @@
+svg {
+  border: 0px solid black;
+}
+
+circle {
+  stroke: #121212;
+  stroke-width: 1px;
+  fill: #121212;
+  fill-opacity: 0.3;
+}
+
+.axis text {
+  font: 10px sans-serif;
+  fill: #666;
+}
+
+.axis line {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1px;
+  /*shape-rendering: crispEdges;*/
+}
+
+.axis path {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke-width: 1px;
+  stroke: #121212;
+}
