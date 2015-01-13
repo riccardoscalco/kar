@@ -1,24 +1,24 @@
-kar.g3 = () ->
+kar.syncLine = () ->
+
+  # ---- Default Values ------------------------------------------------
 
   period = 1000 * 60
-  maxDelay = 1000 * 6
-
+  lag = 1000 * 6
   margin = { top: 20, right: 20, bottom: 20, left: 20 }
   width = 500
   height = 150
   cut = width / 20
-  
+  showAxis = false
   xValue = (d) -> d.date
   yValue = (d) -> d.value
-  
-  showAxis = false
-  
+  cursor = (period) -> undefined  
+
+  # --------------------------------------------------------------------
+
   dt = 1100 # loop time
   transition = d3.select({}).transition()
       .duration(dt)
       .ease("linear")
-
-  cursor = (period) -> undefined
 
   chart = (selection) ->
 
@@ -45,32 +45,32 @@ kar.g3 = () ->
         .attr('height', height)
 
     svg.append("defs").append("clipPath")
-        .attr("id", "clip")
+        .attr("id", "clip-line")
       .append("rect")
         .attr("width", width - margin.left - margin.right - 2 * cut)
         .attr("height", height)
         .attr("x", cut)
 
-    mainG = svg.append("g")
-        .attr("clip-path", "url(#clip)")
+    g = svg.append("g")
+        .attr("clip-path", "url(#clip-line)")
         .attr("transform", "translate(" + 
           margin.left + "," + margin.top + ")")
 
-    group = mainG.append('g')
+    plot = g.append('g')
     
     if showAxis
       xAxis = d3.svg.axis()
           .orient("bottom")
           .tickSize(6, 0)
-      axis = mainG.append("g")
+      axis = g.append("g")
           .attr("transform", "translate(0," + yScale.range()[0] + ")")
           .attr("class", "x axis")
     
-    path = group.append("path")
+    path = plot.append("path")
         .attr("class","line")
 
-    addValue = (data,datum) ->
-      if (datum.date - data[data.length - 1].date) <= maxDelay
+    addValue = (data, datum) ->
+      if (datum.date - data[data.length - 1].date) <= lag
         data.concat(datum)
       else
         data.concat([undefined, datum])
@@ -99,7 +99,7 @@ kar.g3 = () ->
       
     )()
 
-  # getter/setter methods
+  # ---- Getter/Setter Methods -----------------------------------------
 
   chart.margin = (_) ->
     if not arguments.length
@@ -136,11 +136,11 @@ kar.g3 = () ->
       yValue = _
       chart
 
-  chart.maxDelay = (_) ->
+  chart.lag = (_) ->
     if not arguments.length
-      maxDelay
+      lag
     else
-      maxDelay = _
+      lag = _
       chart
 
   chart.period = (_) ->
@@ -171,5 +171,5 @@ kar.g3 = () ->
       cut = _
       chart
 
-  #return
+  # --------------------------------------------------------------------
   chart

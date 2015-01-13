@@ -30,7 +30,7 @@ kar.g1 = () ->
       .mode("mirror")
       .interpolate("basis")
 
-    console.log horizon
+    #console.log horizon
 
     X = (d) -> xScale(xValue(d))
     Y = (d) -> yScale(yValue(d))

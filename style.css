@@ -3,13 +3,14 @@ svg {
 }
 
 circle {
-  stroke: #121212;
+  stroke: #666;
   stroke-width: 1px;
-  fill: #121212;
+  fill: #666;
   fill-opacity: 0.3;
 }
 
-.axis text {
+
+.focus text, .axis text {
   font: 10px sans-serif;
   fill: #666;
 }
@@ -18,7 +19,7 @@ circle {
   fill: none;
   stroke: #666;
   stroke-width: 1px;
-  /*shape-rendering: crispEdges;*/
+  shape-rendering: crispEdges;
 }
 
 .axis path {
@@ -31,5 +32,26 @@ circle {
 .line {
   fill: none;
   stroke-width: 1px;
-  stroke: #121212;
+  stroke: #666;
+}
+
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus line {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1px;
+  stroke-dasharray: "5, 5";
+  shape-rendering: crispEdges;
+}
+
+.notes line {
+  fill: none;
+  stroke: orange;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
 }

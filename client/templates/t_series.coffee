@@ -1,6 +1,6 @@
 Template.tSeries.rendered = () ->
   
-  chart = kar.g1()
+  chart = kar.g5()
       .width(900)
       .height(100)
       .period(1000 * 60 * 3)

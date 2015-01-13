@@ -1,12 +1,12 @@
-Template.tSeriesBis.rendered = () ->
+Template.syncLine.rendered = () ->
   
-  chart = kar.g3()
+  chart = kar.syncLine()
       .width(900)
       .height(100)
       .period(1000 * 60 * 3)
       .showAxis(true)
       .cursor((period) ->
-        Clock.find(
+        Events.find(
           { "date": { "$gte": Date.now() - period } },
           { sort: { "date": 1 } }
         )

@@ -1,27 +1,25 @@
 kar.g5 = () -> 
+  
+  # ---- default values ------------------------------------------------
 
   period = 1000 * 60
-
   margin = {top: 20, right: 20, bottom: 20, left: 20}
-  
   width = 500
   height = 150 
   cut = width / 20
-
   showAxis = false
-  
   xValue = (d) -> d.date
   yValue = (d) -> d.value
+  cursor = (period) -> undefined
+
+  # --------------------------------------------------------------------
   
-  dt = 1100 # loop time
+  xScale = d3.time.scale()
+  yScale = d3.scale.linear()
+  dt = 1000 # loop time
   transition = d3.select({}).transition()
       .duration(dt)
       .ease("linear")
-
-  xScale = d3.time.scale()
-  yScale = d3.scale.linear()
-
-  cursor = (period) ->
 
   chart = (selection) ->
 
@@ -42,14 +40,14 @@ kar.g5 = () ->
         .attr('height', height)
 
     svg.append("defs").append("clipPath")
-        .attr("id", "clip")
+        .attr("id", "clip-g5")
       .append("rect")
         .attr("width", width - margin.left - margin.right - 2 * cut)
         .attr("height", height)
         .attr("x", cut)
       
     mainG = svg.append("g")
-        .attr("clip-path", "url(#clip)")
+        .attr("clip-path", "url(#clip-g5)")
         .attr("transform", "translate(" + 
           margin.left + "," + margin.top + ")")
 
@@ -71,7 +69,7 @@ kar.g5 = () ->
         endingDate = Date.now()
         startingDate = endingDate - period
 
-        xScale.domain([startingDate,endingDate])
+        xScale.domain([startingDate, endingDate])
         
         if showAxis
           axis.call(xAxis.scale(xScale))
@@ -100,7 +98,7 @@ kar.g5 = () ->
       
     )()
 
-  # getter/setter methods
+  # ---- getter/setter methods -----------------------------------------
 
   chart.margin = (_) ->
     if not arguments.length
@@ -137,12 +135,12 @@ kar.g5 = () ->
       yValue = _
       chart
 
-  chart.maxDelay = (_) ->
-    if not arguments.length
-      maxDelay
-    else
-      maxDelay = _
-      chart
+  # chart.maxDelay = (_) ->
+  #   if not arguments.length
+  #     maxDelay
+  #   else
+  #     maxDelay = _
+  #     chart
 
   chart.period = (_) ->
     if not arguments.length
@@ -172,6 +170,5 @@ kar.g5 = () ->
       cut = _
       chart
 
-
-  #return
+  # --------------------------------------------------------------------
   chart
