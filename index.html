@@ -3,9 +3,24 @@
 </head>
 
 <body>
-  <!--{{> viz}}-->
-  <!--{{> tSeriesList}}-->
-  <!--{{> tSeries}}-->
-  {{> line}}
+
+  <div id="st-container" class="st-container">
+
+    <nav class="st-menu st-effect-2" id="menu-2">
+      {{> sidebar}}
+    </nav>
+      
+    <div class="st-pusher">
+      <div class="st-content">
+        <div class="st-content-inner">
+          <div class="main clearfix">
+            {{> main}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </body>
 

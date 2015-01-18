@@ -113,10 +113,18 @@ kar.line = () ->
 
     mouseclick = () ->
       d = nearestDatum(xScale.invert(d3.mouse(this)[0]))
-      collection.insert({
-        "date" : d.date
-        "note": ""
-      })
+      alreadyMarked = collection.find(
+          { 
+            "date": d.date, 
+            "note": { $exists: true } 
+          }
+      ).fetch()[0]
+      if not alreadyMarked
+        collection.insert({
+          "date" : d.date
+          "note": "descr"
+        })
+      kar.toggleSidebar(d3.event)
 
     focus = g.append("g")
       .attr("class", "focus")

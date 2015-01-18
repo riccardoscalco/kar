@@ -1,0 +1,8 @@
+<template name="sidebar">
+  <input type="text" id="description" name="description" placeholder="description">
+  <div class="notes-list">
+    {{#each notes}}
+      {{> noteItem}}
+    {{/each}}
+  </div>
+</template>
