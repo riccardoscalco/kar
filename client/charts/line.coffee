@@ -76,11 +76,12 @@ kar.line = () ->
     data = []
 
     update = () ->
-      arr = collection.find(
+      data = collection.find(
           { "date": { "$gte": Date.now() - period } },
           { sort: { "date": 1 } }).fetch()
-      data = arr.filter( (e) -> not e.note? )
-      notesData = arr.filter( (e) -> e.note? )
+      notesData = Notes.find(
+          { "date": { "$gte": Date.now() - period } },
+          { sort: { "date": 1 } }).fetch()
       endingDate = Date.now()
       startingDate = endingDate - period
       xScale.domain([startingDate,endingDate])
@@ -113,14 +114,14 @@ kar.line = () ->
 
     mouseclick = () ->
       d = nearestDatum(xScale.invert(d3.mouse(this)[0]))
-      alreadyMarked = collection.find(
+      alreadyMarked = Notes.find(
           { 
             "date": d.date, 
             "note": { $exists: true } 
           }
       ).fetch()[0]
       if not alreadyMarked
-        collection.insert({
+        Notes.insert({
           "date" : d.date
           "note": "descr"
         })
