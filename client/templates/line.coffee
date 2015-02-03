@@ -1,8 +1,6 @@
 Template.line.rendered = () ->
   
   chart = kar.line()
-      .width(900)
-      .height(100)
       .period(1000 * 60 * 15)
       .showAxis(true)
       .domain([0, 15])

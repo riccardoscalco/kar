@@ -4,9 +4,9 @@ kar.line = () ->
 
   period = 1000 * 60
   lag = 1000 * 6
-  margin = { top: 20, right: 20, bottom: 20, left: 20 }
-  width = 500
-  height = 150
+  margin = { top: 20, right: 0, bottom: 20, left: 0 }
+  width = 900
+  height = 100
   cut = width / 20
   showAxis = false
   interpolate = "step-before"
@@ -38,16 +38,18 @@ kar.line = () ->
     svg = selection.append('svg')
         .attr('width', width)
         .attr('height', height)
+        .attr("viewBox", "0 0 " + width + " " + height)
+        .attr("preserveAspectRatio", "xMidYMidmeet")
 
-    svg.append("defs").append("clipPath")
-        .attr("id", "clip-line")
-      .append("rect")
-        .attr("width", width - margin.left - margin.right - 2 * cut)
-        .attr("height", height)
-        .attr("x", cut)
+    # svg.append("defs").append("clipPath")
+    #     .attr("id", "clip-line")
+    #   .append("rect")
+    #     .attr("width", width - margin.left - margin.right - 2 * cut)
+    #     .attr("height", height)
+    #     .attr("x", cut)
 
     g = svg.append("g")
-        .attr("clip-path", "url(#clip-line)")
+        #.attr("clip-path", "url(#clip-line)")
         .attr("transform", "translate(" + 
           margin.left + "," + margin.top + ")")
         
@@ -114,18 +116,19 @@ kar.line = () ->
 
     mouseclick = () ->
       d = nearestDatum(xScale.invert(d3.mouse(this)[0]))
-      alreadyMarked = Notes.find(
-          { 
-            "date": d.date, 
-            "note": { $exists: true } 
-          }
-      ).fetch()[0]
-      if not alreadyMarked
-        Notes.insert({
-          "date" : d.date
-          "note": "descr"
-        })
-      kar.toggleSidebar(d3.event)
+      # alreadyMarked = Notes.find(
+      #     { 
+      #       "date": d.date, 
+      #       "note": { $exists: true } 
+      #     }
+      # ).fetch()[0]
+      # if not alreadyMarked
+      #   Notes.insert({
+      #     "date" : d.date
+      #     "note": "descr"
+      #   })
+      Session.set('date', d.date);
+      kar.toggleModal(d3.event)
 
     focus = g.append("g")
       .attr("class", "focus")
