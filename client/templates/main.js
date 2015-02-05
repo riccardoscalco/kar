@@ -30,7 +30,7 @@ Template.main.rendered = function() {
     function init() {
 
       var container = document.getElementById( 'st-container' ),
-        buttons = Array.prototype.slice.call( document.querySelectorAll( '#st-trigger-effects > button' ) ),
+        button = document.querySelectorAll( '#st-trigger-effects > button' )[0],
         // event type (if mobile use touch events)
         eventtype = mobilecheck() ? 'touchstart' : 'click',
         resetMenu = function() {
@@ -40,23 +40,25 @@ Template.main.rendered = function() {
           if( !hasParentClass( evt.target, 'st-menu' ) ) {
             resetMenu();
             document.removeEventListener( eventtype, bodyClickFn );
+            $("nav.st-menu").css("overflow-y","hidden");  // andorid chrome issue
+            //button.addEventListener( eventtype, kar.toggleSidebar );
           }
         };
 
-      buttons.forEach( function( el, i ) {
-        var effect = el.getAttribute( 'data-effect' );
-        kar.toggleSidebar = function(ev) {
-          ev.stopPropagation();
-          ev.preventDefault();
-          container.className = 'st-container'; // clear
-          classie.add( container, effect );
-          setTimeout( function() {
-            classie.add( container, 'st-menu-open' );
-          }, 25 );
-          document.addEventListener( eventtype, bodyClickFn );
-        };
-        el.addEventListener( eventtype, kar.toggleSidebar );
-      });
+      kar.toggleSidebar = function(ev) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        $("nav.st-menu").css("overflow-y","scroll");  // andorid chrome issue
+        container.className = 'st-container'; // clear
+        classie.add( container, 'st-effect-2' );
+        setTimeout( function() {
+          classie.add( container, 'st-menu-open' );
+        }, 25 );
+        document.addEventListener( eventtype, bodyClickFn );
+        //button.removeEventListener( eventtype, kar.toggleSidebar );
+      };
+
+      button.addEventListener( eventtype, kar.toggleSidebar );
 
     }
 
@@ -83,6 +85,7 @@ Template.main.rendered = function() {
       [].slice.call( document.querySelectorAll( '.md-trigger' ) ).forEach( function( el, i ) {
         var modal = document.querySelector( '#' + el.getAttribute( 'data-modal' ) );
         var close = modal.querySelector( '.md-close' );
+        var submit = modal.querySelector( '.control' );
 
         function removeModal( hasPerspective ) {
           classie.remove( modal, 'md-show' );
@@ -93,6 +96,7 @@ Template.main.rendered = function() {
         }
 
         function removeModalHandler() {
+          Session.set('date', undefined);
           removeModal( classie.has( el, 'md-setperspective' ) ); 
         }
 
@@ -109,7 +113,7 @@ Template.main.rendered = function() {
         }
 
         function openModal(ev) {
-          Session.set('date', Date.now());
+          if (!Session.get('date')) Session.set('date', Date.now());
           kar.toggleModal(ev);
         }
 

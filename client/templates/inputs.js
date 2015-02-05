@@ -11,6 +11,7 @@ Template.inputs.helpers({
 })
 
 Template.inputs.events({
+  
   'submit form': function(e) {
     e.preventDefault();
 
@@ -24,8 +25,8 @@ Template.inputs.events({
     day = day.val() ? day.val() : day.attr('placeholder');
     month = month.val() ? month.val() : month.attr('placeholder');
     year = year.val() ? year.val() : year.attr('placeholder');
-    latitude = latitude ? +latitude : undefined;
-    longitude = longitude ? +longitude : undefined;
+    latitude = latitude.val() ? +latitude : undefined;
+    longitude = longitude.val() ? +longitude : undefined;
 
     var hours = '' + new Date(Session.get('date')).getHours();
     var minutes = '' + new Date(Session.get('date')).getMinutes();
@@ -34,15 +35,17 @@ Template.inputs.events({
     var date = new Date( year, month - 1, day, hours, minutes, seconds );
     
     var note = {
+      'show': true,
       'date': date.getTime(),
       'coordinates': [latitude, longitude],
       'description': $(e.target).find('[name=description]').val(),
       'category': $(e.target).find('[name="radios"]:checked').val()
     };
-    
+
     note._id = Notes.insert(note);
 
   }
+
 });
 
 

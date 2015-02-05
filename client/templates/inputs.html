@@ -2,63 +2,71 @@
 
   <form class="content bgcolor-8">
 
-    <span class="input input--isao input-date">
-      <input class="input__field input__field--isao" type="text" id="input-1" placeholder="{{day}}" name="day"/>
-      <label class="input__label input__label--isao" for="input-1" data-content="Day">
-        <span class="input__label-content input__label-content--isao">Day</span>
+    <span class="input input__isao input-date">
+      <input class="input__field input__field__isao" type="text" id="input-1" placeholder="{{day}}" name="day"/>
+      <label class="input__label input__label__isao" for="input-1" data-content="Day">
+        <span class="input__label-content input__label-content__isao">Day</span>
       </label>
     </span>
 
-    <span class="input input--isao input-date">
-      <input class="input__field input__field--isao" type="text" id="input-2" placeholder="{{month}}" name="month"/>
-      <label class="input__label input__label--isao" for="input-2" data-content="Month">
-        <span class="input__label-content input__label-content--isao">Month</span>
+    <span class="input input__isao input-date">
+      <input class="input__field input__field__isao" type="text" id="input-2" placeholder="{{month}}" name="month"/>
+      <label class="input__label input__label__isao" for="input-2" data-content="Month">
+        <span class="input__label-content input__label-content__isao">Month</span>
       </label>
     </span>
 
-    <span class="input input--isao input-date">
-      <input class="input__field input__field--isao" type="text" id="input-3" placeholder="{{year}}" name="year"/>
-      <label class="input__label input__label--isao" for="input-3" data-content="Year">
-        <span class="input__label-content input__label-content--isao">Year</span>
+    <span class="input input__isao input-date">
+      <input class="input__field input__field__isao" type="text" id="input-3" placeholder="{{year}}" name="year"/>
+      <label class="input__label input__label__isao" for="input-3" data-content="Year">
+        <span class="input__label-content input__label-content__isao">Year</span>
       </label>
     </span>
 
-    <span class="input input--isao input-coords">
-      <input class="input__field input__field--isao" type="text" id="input-4"  name="latitude"/>
-      <label class="input__label input__label--isao" for="input-4" data-content="Latitude">
-        <span class="input__label-content input__label-content--isao">Latitude</span>
+<!--     <span class="input input__isao input-coords">
+      <input class="input__field input__field__isao" type="text" id="input-4"  name="latitude"/>
+      <label class="input__label input__label__isao" for="input-4" data-content="Latitude">
+        <span class="input__label-content input__label-content__isao">Latitude</span>
       </label>
     </span>
 
-    <span class="input input--isao input-coords">
-      <input class="input__field input__field--isao" type="text" id="input-5" name="longitude"/>
-      <label class="input__label input__label--isao" for="input-5" data-content="Longitude">
-        <span class="input__label-content input__label-content--isao">Longitude</span>
+    <span class="input input__isao input-coords">
+      <input class="input__field input__field__isao" type="text" id="input-5" name="longitude"/>
+      <label class="input__label input__label__isao" for="input-5" data-content="Longitude">
+        <span class="input__label-content input__label-content__isao">Longitude</span>
+      </label>
+    </span> -->
+
+    <span class="input input__isao input-descr">
+      <input class="input__field input__field__isao" type="text" id="input-6" name="description"/>
+      <label class="input__label input__label__isao" for="input-6" data-content="Description">
+        <span class="input__label-content input__label-content__isao">Description</span>
       </label>
     </span>
-
-    <span class="input input--isao input-descr">
-      <input class="input__field input__field--isao" type="text" id="input-6" name="description"/>
-      <label class="input__label input__label--isao" for="input-6" data-content="Description">
-        <span class="input__label-content input__label-content--isao">Description</span>
-      </label>
-    </span>
-
-    <span class="input input--isao input-cat">
-      <div class="radio-toolbar"> 
+    
+    <div class="radio-toolbar">
+    
+      <span class="input input__isao input-cat">
         <input type="radio" id="radio1" name="radios" value="category_1" checked>
         <label for="radio1"></label>
-        <input type="radio" id="radio2" name="radios" value="category_2">
-        <label for="radio2"></label>
-        <input type="radio" id="radio3" name="radios" value="category_3">
-        <label for="radio3"></label>
-      </div>
-      <label class="input__label input__label--isao" for="input-7" data-content="Categories">
-        <span class="input__label-content input__label-content--isao">Categories</span>
-      </label>
-    </span>
+      </span>
 
-    <input type="submit" value="Submit"/>
+      <span class="input input__isao input-cat">
+        <input type="radio" id="radio2" name="radios" value="category_2" checked>
+        <label for="radio2"></label>
+      </span>
+
+      <span class="input input__isao input-cat">
+        <input type="radio" id="radio3" name="radios" value="category_3" checked>
+        <label for="radio3"></label>
+      </span>
+
+    </div>
+
+    <button class="progress-button control" data-style="fill" data-horizontal>
+      <i class="fa fa-check"></i>
+      <input type="submit" value=""/>
+    </button>
 
   </form>
 

@@ -114,21 +114,22 @@ kar.line = () ->
       focus.attr("transform", "translate(" + X(d) + ",0)")
       focus.select("text").text(yValue(d))
 
-    mouseclick = () ->
-      d = nearestDatum(xScale.invert(d3.mouse(this)[0]))
-      # alreadyMarked = Notes.find(
-      #     { 
-      #       "date": d.date, 
-      #       "note": { $exists: true } 
-      #     }
-      # ).fetch()[0]
-      # if not alreadyMarked
-      #   Notes.insert({
-      #     "date" : d.date
-      #     "note": "descr"
-      #   })
-      Session.set('date', d.date);
-      kar.toggleModal(d3.event)
+    # mouseclick = (position) ->
+    #   #d = nearestDatum(xScale.invert(d3.mouse(self)[0]))
+    #   d = nearestDatum(xScale.invert(position))
+    #   # alreadyMarked = Notes.find(
+    #   #     { 
+    #   #       "date": d.date, 
+    #   #       "note": { $exists: true } 
+    #   #     }
+    #   # ).fetch()[0]
+    #   # if not alreadyMarked
+    #   #   Notes.insert({
+    #   #     "date" : d.date
+    #   #     "note": "descr"
+    #   #   })
+    #   Session.set('date', d.date);
+    #   kar.toggleModal(d3.event)
 
     focus = g.append("g")
       .attr("class", "focus")
@@ -145,6 +146,8 @@ kar.line = () ->
         .attr("x", 9)
         .attr("dy", "1em")
 
+    pressTimer = undefined
+
     svg.append("rect")
         .attr("clip-path", "url(#clip-line)")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -154,7 +157,44 @@ kar.line = () ->
         .on("mouseover", () -> focus.style("display", null))
         .on("mouseout", () -> focus.style("display", "none"))
         .on("mousemove", mousemove)
-        .on("click", mouseclick)
+        .on("click", () ->
+          position = d3.mouse(this)[0]
+          d = nearestDatum(xScale.invert(position))
+          Session.set('date', d.date)
+          if not kar.mobilecheck()
+            kar.toggleModal(d3.event)
+          else
+            $("#plus").css('-webkit-animation','pulse 0.3s')
+            window.setTimeout(
+              () -> $("#plus").css('-webkit-animation','none')
+            ,400)
+        )
+        # .on("mousedown", () ->
+        #   #position = if kar.mobilecheck() then d3.touch(this)[0] else d3.mouse(this)[0]
+        #   d3.event.preventDefault()
+        #   position = d3.mouse(this)[0]
+        #   pressTimer = window.setTimeout(
+        #     (() -> mouseclick(position))
+        #     , 1000 )
+        #   false
+        # )
+        # .on("mouseup", () ->
+        #   clearTimeout(pressTimer)
+        #   false
+        # )
+        # .on("touchstart", () ->
+        #   #d3.event.preventDefault()
+        #   #position = if kar.mobilecheck() then d3.touch(this)[0] else d3.mouse(this)[0]
+        #   position = d3.mouse(this)[0]
+        #   pressTimer = window.setTimeout(
+        #     (() -> mouseclick(position))
+        #     , 1000 )
+        #   false
+        # )
+        # .on("touchend", () ->
+        #   clearTimeout(pressTimer)
+        #   false
+        # )
 
     
     Tracker.autorun(update)

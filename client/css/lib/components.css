@@ -1,9 +1,8 @@
 /*@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);*/
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700,400italic);
 
-*,
-*:after,
-*::before {
+*, *:after, *::before {
+  /*-webkit-box-sizing: border-box;*/
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
@@ -50,7 +49,7 @@ body {
   right: 0;
   width: 0;
   height: 0;
-  background: rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.5);
   content: '';
   opacity: 0;
   -webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
@@ -234,6 +233,7 @@ body {
 /* Content styles */
 
 .md-content {
+  height: 100%;
   color: #000;
   background: #eee;
   position: relative;
@@ -300,9 +300,9 @@ body {
   opacity: 1;
 }
 
-@media screen and (max-width: 32em) {
+/*@media screen and (max-width: 32em) {
   body { font-size: 75%; }
-}
+}*/
 
 
 /* ------------------- */
@@ -369,7 +369,7 @@ body {
 
 
 /* Isao */
-.input__field--isao {
+.input__field__isao {
   z-index: 10;
   padding: 0.75em 0.1em 0.25em;
   width: 100%;
@@ -377,7 +377,7 @@ body {
   color: #afb3b8;
 }
 
-.input__label--isao {
+.input__label__isao {
   position: relative;
   overflow: hidden;
   padding: 0;
@@ -386,7 +386,7 @@ body {
   text-align: left;
 }
 
-.input__label--isao::before {
+.input__label__isao::before {
   content: '';
   position: absolute;
   top: 0;
@@ -403,7 +403,7 @@ body {
   transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
 }
 
-.input__label--isao::after {
+.input__label__isao::after {
   content: attr(data-content);
   position: absolute;
   top: 0;
@@ -420,23 +420,23 @@ body {
   pointer-events: none;
 }
 
-.input__field--isao:focus + .input__label--isao::before {
+.input__field__isao:focus + .input__label__isao::before {
   background-color: #da7071;
   -webkit-transform: scale3d(1, 1, 1);
   transform: scale3d(1, 1, 1);
 }
 
-.input__field--isao:focus + .input__label--isao {
+.input__field__isao:focus + .input__label__isao {
   pointer-events: none;
 }
 
-.input__field--isao:focus + .input__label--isao::after {
+.input__field__isao:focus + .input__label__isao::after {
   opacity: 1;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
 
-.input__label-content--isao {
+.input__label-content__isao {
   padding: 0.75em 0.15em;
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, transform 0.3s;
@@ -444,8 +444,129 @@ body {
   transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
 }
 
-.input__field--isao:focus + .input__label--isao .input__label-content--isao {
+.input__field__isao:focus + .input__label__isao .input__label-content__isao {
   opacity: 0;
   -webkit-transform: translate3d(0, -50%, 0);
   transform: translate3d(0, -50%, 0);
+}
+
+/* ------------------- */
+
+/* General styles for all types of buttons */
+.progress-button {
+  display: inline-block;
+  padding: 0 60px;
+  outline: none;
+  border: none;
+  background: #1d9650;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1em;
+  line-height: 4;
+}
+
+.progress-button[disabled],
+.progress-button[disabled].state-loading {
+  cursor: default;
+}
+
+.progress-button .content {
+  position: relative;
+  display: block;
+}
+
+.progress-button .content::before,
+.progress-button .content::after  {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  color: #fff;
+  /*font-family: "icomoon";*/
+  font-family: "FontAwesome";
+  opacity: 0;
+  -webkit-transition: opacity 0.3s 0.3s;
+  transition: opacity 0.3s 0.3s;
+}
+
+.progress-button .content::before {
+  content: "\f00c";
+  padding-top: 10px;
+}
+
+@media screen and (max-width: 640px) {
+  .progress-button .content::before {
+    padding-top: 0px;
+  }
+}
+
+.progress-button .content::after {
+  /*content: "\e601";*/ /* Cross for error */
+  content: "error";
+}
+
+.progress-button.state-success .content::before,
+.progress-button.state-error .content::after {
+  opacity: 1;
+}
+
+.notransition {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+
+.progress-button .progress {
+  background: #148544;
+}
+
+.progress-button .progress-inner {
+  position: absolute;
+  left: 0;
+  background: #0e7138;
+}
+
+.progress-button[data-horizontal] .progress-inner {
+  top: 0;
+  width: 0;
+  height: 100%;
+  -webkit-transition: width 0.3s, opacity 0.3s;
+  transition: width 0.3s, opacity 0.3s;
+}
+
+.progress-button[data-vertical] .progress-inner {
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  -webkit-transition: height 0.3s, opacity 0.3s;
+  transition: height 0.3s, opacity 0.3s;
+}
+
+/* Fill horizontal */
+/* ====================== */
+
+.progress-button[data-style="fill"][data-horizontal] {
+  overflow: hidden;
+}
+
+.progress-button[data-style="fill"][data-horizontal] .content {
+  z-index: 10;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+}
+
+.progress-button[data-style="fill"][data-horizontal] .content::before,
+.progress-button[data-style="fill"][data-horizontal] .content::after {
+  top: 100%;
+  right: auto;
+  left: 50%;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.progress-button[data-style="fill"][data-horizontal].state-success .content,
+.progress-button[data-style="fill"][data-horizontal].state-error .content {
+  -webkit-transform: translateY(-100%);
+  transform: translateY(-100%);
 }
