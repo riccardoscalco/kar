@@ -208,19 +208,9 @@ Template.modal.rendered = function() {
   [].slice.call( document.querySelectorAll( 'button.progress-button' ) ).forEach( function( bttn ) {
     new ProgressButton( bttn, {
       callback : function( instance ) {
-        var el = document.querySelectorAll( '.md-trigger' );
-        function removeModal( hasPerspective ) {
-          $("#modal").removeClass("md-show");
-          if( hasPerspective ) {
-            classie.remove( document.documentElement, 'md-perspective' );
-          }
-        }
-        function removeModalHandler() {
-          Session.set('date', undefined);
-          removeModal( classie.has( el[0], 'md-setperspective' ) );
-        }
-        var progress = 0,
-          interval = setInterval( function() {
+
+        var progress = 0;
+        var interval = setInterval( function() {
             progress = Math.min( progress + Math.random() * 0.3, 1 );
             instance._setProgress( progress );
 
@@ -232,6 +222,19 @@ Template.modal.rendered = function() {
               }, 600);
             }
           }, 200 );
+
+        var el = document.querySelectorAll( '.md-trigger' );
+        function removeModal( hasPerspective ) {
+          $("#modal").removeClass("md-show");
+          if( hasPerspective ) {
+            classie.remove( document.documentElement, 'md-perspective' );
+          }
+        }
+        function removeModalHandler() {
+          Session.set('date', undefined);
+          removeModal( classie.has( el[0], 'md-setperspective' ) );
+        }
+
       }
     } );
   } );

@@ -80,6 +80,7 @@ button {
 	border: 0px;
 	font-size: 21px;
 	color: #fff;
+	outline:none;
 }
 
 .radio-toolbar {
@@ -214,7 +215,7 @@ input[type=submit]:focus {
 }
 
 #plus {
-	/*-webkit-animation: pulse 0.3s;*/
+	/*"-webkit-animation": pulse 0.3s;*/
 }
 
 @-webkit-keyframes pulse {

@@ -11,7 +11,7 @@ Template.inputs.helpers({
 })
 
 Template.inputs.events({
-  
+
   'submit form': function(e) {
     e.preventDefault();
 
