@@ -1,6 +1,6 @@
 Template.inputs.helpers({
   day: function() {
-    return '' + (new Date(Session.get('date')).getDay() + 1);
+    return '' + (new Date(Session.get('date')).getDate());
   },
   month: function() {
     return '' + (new Date(Session.get('date')).getMonth() + 1);
@@ -13,39 +13,49 @@ Template.inputs.helpers({
 Template.inputs.events({
 
   'submit form': function(e) {
-    e.preventDefault();
 
-    var d = new Date();
-    var day = $(e.target).find('[name=day]'),
-        month = $(e.target).find('[name=month]'),
-        year = $(e.target).find('[name=year]'),
-        latitude = $(e.target).find('[name=latitude]'),
-        longitude = $(e.target).find('[name=longitude]');
+    if (!Session.get('submitting')) {
 
-    day = day.val() ? day.val() : day.attr('placeholder');
-    month = month.val() ? month.val() : month.attr('placeholder');
-    year = year.val() ? year.val() : year.attr('placeholder');
-    latitude = latitude.val() ? +latitude : undefined;
-    longitude = longitude.val() ? +longitude : undefined;
+      Session.set('submitting',true);
+      e.preventDefault();
 
-    var hours = '' + new Date(Session.get('date')).getHours();
-    var minutes = '' + new Date(Session.get('date')).getMinutes();
-    var seconds = '' + new Date(Session.get('date')).getSeconds();
+      var d = new Date();
+      var day = $(e.target).find('[name=day]'),
+          month = $(e.target).find('[name=month]'),
+          year = $(e.target).find('[name=year]'),
+          latitude = $(e.target).find('[name=latitude]'),
+          longitude = $(e.target).find('[name=longitude]');
 
-    var date = new Date( year, month - 1, day, hours, minutes, seconds );
-    
-    var note = {
-      'show': true,
-      'date': date.getTime(),
-      'coordinates': [latitude, longitude],
-      'description': $(e.target).find('[name=description]').val(),
-      'category': $(e.target).find('[name="radios"]:checked').val()
-    };
+      day = day.val() ? day.val() : day.attr('placeholder');
+      month = month.val() ? month.val() : month.attr('placeholder');
+      year = year.val() ? year.val() : year.attr('placeholder');
+      latitude = latitude.val() ? +latitude : undefined;
+      longitude = longitude.val() ? +longitude : undefined;
 
-    note._id = Notes.insert(note);
+
+      var hours = '' + new Date(Session.get('date')).getHours();
+      var minutes = '' + new Date(Session.get('date')).getMinutes();
+      var seconds = '' + new Date(Session.get('date')).getSeconds();
+
+      var date = new Date( year, month - 1, day, hours, minutes, seconds );
+      
+      var note = {
+        'show': true,
+        'date': date.getTime(),
+        'coordinates': [latitude, longitude],
+        'description': $(e.target).find('[name=description]').val(),
+        'category': $(e.target).find('[name="radios"]:checked').val()
+      };
+
+      note._id = Notes.insert(note);
+
+
+    } else {
+      e.preventDefault();
+      null;
+    }
 
   }
-
 });
 
 

@@ -32,11 +32,23 @@ body {
   background: #272932;
 }
 
+.progress-button .content::before {
+  content: "\f00c";
+  padding-top: 10px;
+}
+
+.progress-button .content::after {
+  content: "\f00d";
+  padding-top: 10px;
+}
+
 /* ----------------------- */
 
 * {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none; /* Disable selection/copy in UIWebView */
+    -webkit-touch-callout: none; /* Disable selection/copy in UIWebView */
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* Disable button highlight */
+    -webkit-tap-highlight-color: transparent;  /* i.e. Nexus5/Chrome and Kindle Fire HD 7'' */
 }
 
 header {
@@ -51,6 +63,7 @@ header {
 
 .note-content {
 	color: #fff;
+	margin-top: 10px; 
 }
 
 .note-content p {
@@ -97,12 +110,24 @@ button {
     background-color:#ddd;
     padding: 30px 10px 0px 10px;
     width: 95%;
-    font-family:Arial;
+    font-family: 'Lato', sans-serif;;
     font-size:16px;
 }
 
 .radio-toolbar input[type="radio"]:checked + label {
-    background-color:#bbb;
+    border-bottom: 4px solid red;
+}
+
+label[for=radio1] {
+	background-color: #1212aa;
+}
+
+label[for=radio2] {
+	background-color: #23ff23;
+}
+
+label[for=radio3] {
+	background-color: #340034;
 }
 
 form.content {
@@ -166,6 +191,10 @@ button.control {
 	background: #7291CC;
 }
 
+/*button.control:active {
+	background: red;
+}*/
+
 button.md-close {
 	padding: 0px;
 	width: 50%;
@@ -205,6 +234,16 @@ input[type=submit] {
 
 input[type=submit]:focus {
     outline-width: 0;
+}
+
+input:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+input:focus::-moz-placeholder {
+    color: transparent;
+}
+input:focus:-moz-placeholder {
+    color: transparent;
 }
 
 @media screen and (max-width: 640px) {

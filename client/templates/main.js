@@ -30,7 +30,8 @@ Template.main.rendered = function() {
     function init() {
 
       var container = document.getElementById( 'st-container' ),
-        button = document.querySelectorAll( '#st-trigger-effects > button' )[0],
+        //button = document.querySelectorAll( '#st-trigger-effects > button' )[0],
+        button = document.querySelectorAll( '#st-trigger-effects' )[0],
         // event type (if mobile use touch events)
         eventtype = mobilecheck() ? 'touchstart' : 'click',
         resetMenu = function() {
@@ -58,7 +59,7 @@ Template.main.rendered = function() {
         //button.removeEventListener( eventtype, kar.toggleSidebar );
       };
 
-      button.addEventListener( eventtype, kar.toggleSidebar );
+      button.addEventListener( 'click', kar.toggleSidebar );
 
     }
 

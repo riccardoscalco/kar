@@ -122,7 +122,8 @@ Template.modal.rendered = function() {
 
   ProgressButton.prototype._initEvents = function() {
     var self = this;
-    this.button.addEventListener( 'click', function() {
+    var eventtype = kar.mobilecheck() ? 'touchstart' : 'click';
+    this.button.addEventListener( eventtype, function() {
       // disable the button
       self.button.setAttribute( 'disabled', '' );
       // add class state-loading to the button (applies a specific transform to the button depending which data-style is defined - defined in the stylesheets)
@@ -209,20 +210,6 @@ Template.modal.rendered = function() {
     new ProgressButton( bttn, {
       callback : function( instance ) {
 
-        var progress = 0;
-        var interval = setInterval( function() {
-            progress = Math.min( progress + Math.random() * 0.3, 1 );
-            instance._setProgress( progress );
-
-            if( progress === 1 ) {
-              instance._stop(1);
-              clearInterval( interval );
-              setTimeout( function() {
-                removeModalHandler();
-              }, 600);
-            }
-          }, 200 );
-
         var el = document.querySelectorAll( '.md-trigger' );
         function removeModal( hasPerspective ) {
           $("#modal").removeClass("md-show");
@@ -232,8 +219,23 @@ Template.modal.rendered = function() {
         }
         function removeModalHandler() {
           Session.set('date', undefined);
+          Session.set('submitting', false);
           removeModal( classie.has( el[0], 'md-setperspective' ) );
         }
+
+        var progress = 0;
+        var interval = Meteor.setInterval( function() {
+            progress = Math.min( progress + Math.random() * 0.3, 1 );
+            instance._setProgress( progress );
+
+            if( progress === 1 ) {
+              instance._stop(1); // use -1 to trigger stauts-error
+              clearInterval( interval );
+              Meteor.setTimeout( function() {
+                removeModalHandler();
+              }, 600);
+            }
+          }, 200 );
 
       }
     } );
