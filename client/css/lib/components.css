@@ -412,12 +412,12 @@ body {
   padding: 0.75em 0.15em;
   color: #da7071;
   opacity: 0;
-  -webkit-transform: translate3d(0, 50%, 0);
+/*  -webkit-transform: translate3d(0, 50%, 0);
   transform: translate3d(0, 50%, 0);
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, transform 0.3s;
   -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
-  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);*/
   pointer-events: none;
 }
 
@@ -433,22 +433,22 @@ body {
 
 .input__field__isao:focus + .input__label__isao::after {
   opacity: 1;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+/*  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);*/
 }
 
 .input__label-content__isao {
   padding: 0.75em 0.15em;
-  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+/*  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, transform 0.3s;
   -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
-  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);*/
 }
 
 .input__field__isao:focus + .input__label__isao .input__label-content__isao {
   opacity: 0;
-  -webkit-transform: translate3d(0, -50%, 0);
-  transform: translate3d(0, -50%, 0);
+/*  -webkit-transform: translate3d(0, -50%, 0);
+  transform: translate3d(0, -50%, 0);*/
 }
 
 /* ------------------- */

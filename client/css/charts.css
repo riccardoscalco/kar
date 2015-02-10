@@ -56,7 +56,7 @@ circle {
 
 .notes line {
   fill: none;
-  stroke: #7291CC;
+  /*stroke: #7291CC;*/
   stroke-width: 2px;
   shape-rendering: crispEdges;
 }

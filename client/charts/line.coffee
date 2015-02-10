@@ -84,6 +84,7 @@ kar.line = () ->
       notesData = Notes.find(
           { "date": { "$gte": Date.now() - period } },
           { sort: { "date": 1 } }).fetch()
+
       endingDate = Date.now()
       startingDate = endingDate - period
       xScale.domain([startingDate,endingDate])
@@ -93,12 +94,13 @@ kar.line = () ->
           .attr("d", line)
 
       marker = notes.selectAll("line")
-          .data(notesData)
+          .data(notesData, (d) -> d._id)
       marker.enter()
           .append("line")
           .attr("y2", yScale.range()[0])
           .attr("x1", X)
           .attr("x2", X)
+          .attr("class", (d) -> d.category)
       marker.attr("x1", X).attr("x2", X)
       marker.exit().remove()
 
@@ -143,8 +145,9 @@ kar.line = () ->
         )
 
     focus.append("text")
-        .attr("x", 9)
+        .attr("x", -9)
         .attr("dy", "1em")
+        .style("text-anchor", "end")
 
     pressTimer = undefined
 
