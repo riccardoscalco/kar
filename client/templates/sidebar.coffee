@@ -1,3 +1,3 @@
 Template.sidebar.helpers({
-  notes: () -> Notes.find( {}, { sort: { "date": 1 } } )
+  notes: () -> Notes.find( {}, { sort: { "date": -1 } } )
 })

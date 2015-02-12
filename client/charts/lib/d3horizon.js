@@ -1,3 +1,4 @@
+// https://github.com/d3/d3-plugins/tree/master/horizon
 (function() {
   d3.horizon = function() {
     var bands = 1, // between 1 and 5, typically
@@ -6,8 +7,9 @@
         x = d3_horizonX,
         y = d3_horizonY,
         w = 960,
-        h = 40;
-        //duration = 0;
+        h = 40,
+        period = undefined,
+        duration = 0;
 
     var color = d3.scale.linear()
         .domain([-1, 0, 0, 1])
@@ -18,8 +20,10 @@
       g.each(function(d, i) {
         var g = d3.select(this),
             n = 2 * bands + 1,
-            xMin = Infinity,
-            xMax = -Infinity,
+            // xMin = Infinity,
+            // xMax = -Infinity,
+            xMax = Date.now(),
+            xMin = xMax - period,
             yMax = -Infinity,
             x0, // old x-scale
             y0, // old y-scale
@@ -27,13 +31,17 @@
 
         // Compute x- and y-values along with extents.
         var data = d.map(function(d, i) {
-          var xv = x.call(this, d, i),
-              yv = y.call(this, d, i);
-          if (xv < xMin) xMin = xv;
-          if (xv > xMax) xMax = xv;
-          if (-yv > yMax) yMax = -yv;
-          if (yv > yMax) yMax = yv;
-          return [xv, yv];
+          if (d) {
+            var xv = x.call(this, d, i),
+                yv = y.call(this, d, i);
+            // if (xv < xMin) xMin = xv;
+            // if (xv > xMax) xMax = xv;
+            if (-yv > yMax) yMax = -yv;
+            if (yv > yMax) yMax = yv;
+            return [xv, yv];
+          } else {
+            return d
+          }
         });
 
         // Compute the new x- and y-scales, and transform.
@@ -65,10 +73,10 @@
             .attr("width", w)
             .attr("height", h);
 
-        // defs.select("rect").transition()
-        //     .duration(duration)
-        //     .attr("width", w)
-        //     .attr("height", h);
+        defs.select("rect").transition()
+            .duration(duration)
+            .attr("width", w)
+            .attr("height", h);
 
         // We'll use a container to clip all horizon layers at once.
         g.selectAll("g")
@@ -81,6 +89,7 @@
             .data(d3.range(-1, -bands - 1, -1).concat(d3.range(1, bands + 1)), Number);
 
         var d0 = d3_horizonArea
+            .defined(function(d) { return d; })
             .interpolate(interpolate)
             .x(function(d) { return x0(d[0]); })
             .y0(h * bands)
@@ -88,6 +97,7 @@
             (data);
 
         var d1 = d3_horizonArea
+            .defined(function(d) { return d; })
             .x(function(d) { return x1(d[0]); })
             .y1(function(d) { return h * bands - y1(d[1]); })
             (data);
@@ -97,29 +107,29 @@
             .attr("transform", t0)
             .attr("d", d0);
 
-        // path.transition()
-        //     .duration(duration)
-        //     .style("fill", color)
-        //     .attr("transform", t1)
-        //     .attr("d", d1);
+        path.transition()
+            .duration(duration)
+            .style("fill", color)
+            .attr("transform", t1)
+            .attr("d", d1);
 
-        // path.exit().transition()
-        //     .duration(duration)
-        //     .attr("transform", t1)
-        //     .attr("d", d1)
-        //     .remove();
+        path.exit().transition()
+            .duration(duration)
+            .attr("transform", t1)
+            .attr("d", d1)
+            .remove();
 
-        // Stash the new scales.
-        //this.__chart__ = {x: x1, y: y1, t: t1, id: id};
+        //Stash the new scales.
+        this.__chart__ = {x: x1, y: y1, t: t1, id: id};
       });
-      //d3.timer.flush();
+      d3.timer.flush();
     }
 
-    // horizon.duration = function(x) {
-    //   if (!arguments.length) return duration;
-    //   duration = +x;
-    //   return horizon;
-    // };
+    horizon.duration = function(x) {
+      if (!arguments.length) return duration;
+      duration = +x;
+      return horizon;
+    };
 
     horizon.bands = function(x) {
       if (!arguments.length) return bands;
@@ -143,6 +153,12 @@
     horizon.interpolate = function(x) {
       if (!arguments.length) return interpolate;
       interpolate = x + "";
+      return horizon;
+    };
+
+    horizon.period = function(z) {
+      if (!arguments.length) return period;
+      period = z;
       return horizon;
     };
 

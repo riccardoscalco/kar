@@ -7,10 +7,9 @@ kar.line = () ->
   margin = { top: 20, right: 0, bottom: 20, left: 0 }
   width = 900
   height = 100
-  cut = width / 20
   showAxis = false
-  interpolate = "step-before"
-  domain = [1, 10]
+  interpolate = "cardinal"
+  domain = undefined
   collection = undefined
   xValue = (d) -> d.date
   yValue = (d) -> d.value
@@ -41,19 +40,11 @@ kar.line = () ->
         .attr("viewBox", "0 0 " + width + " " + height)
         .attr("preserveAspectRatio", "xMidYMidmeet")
 
-    # svg.append("defs").append("clipPath")
-    #     .attr("id", "clip-line")
-    #   .append("rect")
-    #     .attr("width", width - margin.left - margin.right - 2 * cut)
-    #     .attr("height", height)
-    #     .attr("x", cut)
-
     g = svg.append("g")
-        #.attr("clip-path", "url(#clip-line)")
         .attr("transform", "translate(" + 
           margin.left + "," + margin.top + ")")
         
-    plot = g.append('g') 
+    plot = g.append('g')
     notes = g.append('g').attr("class", "notes")
     
     if showAxis
@@ -150,6 +141,8 @@ kar.line = () ->
         .style("text-anchor", "end")
 
     pressTimer = undefined
+    mobile = kar.mobilecheck()
+    eventtype = if mobile then 'touchstart' else 'click'
 
     svg.append("rect")
         .attr("clip-path", "url(#clip-line)")
@@ -160,11 +153,11 @@ kar.line = () ->
         .on("mouseover", () -> focus.style("display", null))
         .on("mouseout", () -> focus.style("display", "none"))
         .on("mousemove", mousemove)
-        .on("click", () ->
+        .on(eventtype, () ->
           position = d3.mouse(this)[0]
           d = nearestDatum(xScale.invert(position))
           Session.set('date', d.date)
-          if not kar.mobilecheck()
+          if not mobile
             kar.toggleModal(d3.event)
           else
             $("#plus").css('-webkit-animation','pulse 0.3s')
@@ -204,27 +197,6 @@ kar.line = () ->
 
   # ---- Getter/Setter Methods -----------------------------------------
 
-  chart.margin = (_) ->
-    if not arguments.length
-      margin
-    else
-      margin = _
-      chart
-
-  chart.width = (_) ->
-    if not arguments.length
-      width
-    else
-      width = _
-      chart
-
-  chart.height = (_) ->
-    if not arguments.length
-      height
-    else
-      height = _
-      chart
-
   chart.x = (_) ->
     if not arguments.length
       xValue
@@ -257,7 +229,7 @@ kar.line = () ->
     if not arguments.length
       domain
     else
-      domain = _
+      domain = [ _[0], _[1] * 1.5 ]
       chart
 
   chart.period = (_) ->
@@ -279,13 +251,6 @@ kar.line = () ->
       showAxis
     else
       showAxis = _
-      chart
-
-  chart.cut = (_) ->
-    if not arguments.length
-      cut
-    else
-      cut = _
       chart
 
   # --------------------------------------------------------------------

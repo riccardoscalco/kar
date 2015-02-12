@@ -56,7 +56,8 @@ body {
 }
 
 .progress-button .progress-inner {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.3);
+  /*background: #464655;*/
 }
 
 .progress-button .content::before {
@@ -91,8 +92,8 @@ body {
 /* ----------------------- */
 
 * {
-    -webkit-touch-callout: none; /* Disable selection/copy in UIWebView */
-    -webkit-user-select: none;
+/*    -webkit-touch-callout: none;  Disable selection/copy in UIWebView 
+    -webkit-user-select: none;*/
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* Disable button highlight */
     -webkit-tap-highlight-color: transparent;  /* i.e. Nexus5/Chrome and Kindle Fire HD 7'' */
 }
@@ -103,23 +104,38 @@ header {
 
 .note-item {
 	margin: 0em;
-	border-bottom: 1px solid #E0E0E2;
-	padding: 2em;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+
+.cat1_color {
+  border-left: 5px solid #0488A5;
+}
+
+.cat2_color {
+  border-left: 5px solid #CA054D;
+}
+
+.cat3_color {
+  border-left: 5px solid #07F75B;
 }
 
 .note-content {
 	color: #E0E0E2;
-	margin-top: 10px; 
+  padding: 1em 1em 0.5em 1em;
 }
 
 .note-content p {
-	margin-top: 0.5em;
+	font-size: 0.9em;
+	margin-top: 1em;
 	margin-bottom: 1em;
+  padding-left: 0.5em;
+  padding-right: 1em;
 }
 
 .note-content time {
 	font-style: italic;
-	font-size: 13px; 
+	font-size: 0.9em;
+  opacity: 0.7;
 }
 
 .chart-container {
@@ -129,6 +145,22 @@ header {
 	max-width: 940px;
 	padding: 20px;
 	background: rgba(0,0,0,0.05);
+}
+
+.chart-container h1 {
+	font-size: 1em;
+	letter-spacing: 0.1em;
+	margin: 0;
+	color: #464655;
+	text-transform: uppercase;
+}
+
+.chart-container h2 {
+	font-size: 0.9em;
+	font-weight: normal;
+	margin: 0;
+	margin-top: 3px;
+	color: #464655;
 }
 
 button {
@@ -215,13 +247,13 @@ form.content {
 	display: inline;
 }
 
-.line-template {
+.time-series-template {
 	position:relative;
 	overflow:hidden;
 	height: 100px;
 }
 
-.line-template > svg {
+.time-series-template > svg {
   position:absolute;
   right: 0%;
   top: 0%;
@@ -250,7 +282,7 @@ button.md-close {
 	position: absolute;
 	border: 0;
 	overflow: hidden;
-	background: rgba(255,255,255,0.2);
+	background: rgba(255,255,255,0.1);
 	color: #e0e0e2;
 }
 
@@ -274,7 +306,9 @@ input[type=submit] {
 	width: 100%;
 	height: 100%;
 	border: 0;
-	background: rgba(255,255,255,0.1);
+	/*background: rgba(255,255,255,0.1);*/
+	/*background: transparent;*/
+	background: rgba(0,0,0,0.1);
 	color: #fff;
 }
 
@@ -332,3 +366,27 @@ input:focus:-moz-placeholder {
 	background-color: #07F75B;
 	opacity: 0.8;
 }
+
+/*.cat_triangle {
+	position: absolute;
+	right: 0;
+	opacity: 0.7;
+	margin-top: -2em;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 50px 50px 0;
+	-webkit-transform: rotate(360deg);
+}
+
+.cat1_triangle {
+	border-color: transparent #0488A5 transparent transparent;
+}
+
+.cat2_triangle {
+	border-color: transparent #CA054D transparent transparent;
+}
+
+.cat3_triangle {
+	border-color: transparent #07F75B transparent transparent;
+}*/
