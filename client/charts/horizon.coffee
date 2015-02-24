@@ -125,7 +125,7 @@ kar.horizon = () ->
         .style("text-anchor", "end")
 
     pressTimer = undefined
-    mobile = kar.mobilecheck()
+    mobile = kar.mobilecheck
     eventtype = if mobile then 'touchstart' else 'click'
 
     svg.append("rect")
@@ -141,6 +141,7 @@ kar.horizon = () ->
           position = d3.mouse(this)[0]
           d = nearestDatum(xScale.invert(position))
           Session.set('date', d.date)
+          Session.set("coordinates", undefined)
           if not mobile
             kar.toggleModal(d3.event)
           else

@@ -122,7 +122,7 @@ Template.modal.rendered = function() {
 
   ProgressButton.prototype._initEvents = function() {
     var self = this;
-    var eventtype = kar.mobilecheck() ? 'touchstart' : 'click';
+    var eventtype = kar.mobilecheck ? 'touchstart' : 'click';
     this.button.addEventListener( eventtype, function() {
       // disable the button
       self.button.setAttribute( 'disabled', '' );
@@ -219,6 +219,7 @@ Template.modal.rendered = function() {
         }
         function removeModalHandler() {
           Session.set('date', undefined);
+          Session.set("coordinates", undefined);
           Session.set('submitting', false);
           removeModal( classie.has( el[0], 'md-setperspective' ) );
         }

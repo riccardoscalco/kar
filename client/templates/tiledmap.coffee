@@ -6,120 +6,62 @@ Template.tiledmap.rendered = ->
   resize = () ->
     newHeight = $(root).height()
     $("#tiledmap").css("height", newHeight)
-
   # resize on load
   resize()
-
   # resize on resize of root
   $(root).resize => resize()
   
-  L.Icon.Default.imagePath = 'packages/mrt_leaflet/images'
-
-  
   map = L.map('tiledmap', {
-    doubleClickZoom: true
+    doubleClickZoom: false
     zoomControl: false
     # closePopupOnClick:false
+    scrollWheelZoom: true
+    touchZoom: true
+    dragging: true
   }).setView([45.47, 9.11], 11);
 
-  L.tileLayer.provider('OpenStreetMap.BlackAndWhite').addTo(map);
+  #L.tileLayer.provider('OpenStreetMap.BlackAndWhite').addTo(map);
+  L.tileLayer.provider('Stamen.TonerLite').addTo(map);
 
   Icons = L.Icon.extend
     options:
         shadowUrl: '',
-        iconSize:     [36, 51],
-        shadowSize:   [0, 0],
-        iconAnchor:   [18, 30],
-        shadowAnchor: [0, 0],
-        popupAnchor:  [0, -20]
+        iconSize:     [30, 30 * Math.sqrt(3) / 2],
+        #shadowSize:   [0, 0],
+        iconAnchor:   [15, 25 * Math.sqrt(3) / 2],
+        #shadowAnchor: [0, 0],
+        #popupAnchor:  [0, 0]
 
-  myIcon = L.icon({
-    iconUrl: 'packages/mrt_leaflet/images/marker-icon.png',
-    iconSize:     [38, 55], # size of the icon
-    #shadowSize:   [50, 64], # size of the shadow
-    iconAnchor:   [19, 55], # point of the icon which will correspond to marker's location
-    #shadowAnchor: [4, 62],  # the same for the shadow
-    #popupAnchor:  [-3, -76] # point from which the popup should open relative to the iconAnchor
-  })
+  imagePath = "packages/meteor-leaflet-master/images/"
+  selectionIcon = new Icons { iconUrl: imagePath + "marker.svg" }
 
-
-  selectionIcon = new Icons {iconUrl: 'selection.svg'}
-
-  map.on('dblclick', (event) ->
-    console.log event.latlng
-    L.marker(event.latlng, {icon: myIcon}).addTo(map)
-    # L.marker(event.latlng).addTo(map)
-    # Markers.insert({latlng: event.latlng});
+  getIcon = (o) ->
+    switch o.category
+      when "category_1" then new Icons { iconUrl : imagePath + "marker1.svg"}
+      when "category_2" then new Icons { iconUrl : imagePath + "marker2.svg"}
+      when "category_3" then new Icons { iconUrl : imagePath + "marker3.svg"}
+  
+  marker = undefined
+  map.on("click", (event) ->
+    if marker then map.removeLayer(marker)
+    marker = L.marker(event.latlng, {icon: selectionIcon}).addTo(map)
+    Session.set("date", Date.now())
+    Session.set("coordinates", {
+      "lat": event.latlng.lat
+      "lng": event.latlng.lng
+    })
+    $("#plus").css('-webkit-animation','pulse 0.3s')
+    window.setTimeout(
+      () -> $("#plus").css('-webkit-animation','none')
+    ,400)
   )
 
-
-
-  # myIcon0 = new myIcons {iconUrl: 'packages/leaflet/images/icoon.svg'}
-  # # first update file package.js
-  # choice1 = new myIcons {iconUrl: 'packages/leaflet/images/choice1.svg'}
-  # choice2 = new myIcons {iconUrl: 'packages/leaflet/images/choice2.svg'}
-  # choice3 = new myIcons {iconUrl: 'packages/leaflet/images/choice3.svg'}
-
-  # tmpIcon = new myIcons {iconUrl: 'packages/leaflet/images/tmp.svg'}
-  # #myIcon4 = new myIcons {iconUrl: 'packages/leaflet/images/icoon4.svg'}
-  # #myIconsList = [myIcon1, myIcon2, myIcon3, myIcon4]
-
-  # ###
-  # root.circle = L.circle [51.508, -0.11], 1000,
-  #   "id": "ciao"
-  #   color: 'red'
-  #   fillColor: '#f03'
-  #   fillOpacity: 0.5
-  # root.circle.addTo(map)
-  # ###
-
-
-  # # click on the map and will insert the latlng into the markers collection 
-  # clickCount = 0
-  # root.map.on 'click', (e) ->
-  #   console.log $(".leaflet-popup")[0]
-  #   if not Session.get("done")?
-  #     clickCount += 1
-  #     if (clickCount <= 1)
-  #       Meteor.setTimeout () ->
-  #         if clickCount <= 1 and not Session.get("clicked")?
-  #           Session.set("clicked","true")
-  #           $("#home").toggleClass("fa-map-marker fa-undo")
-  #           Session.set("latlng",e.latlng)
-  #           TmpMark.insert {latlng: e.latlng}
-  #           #id = Markers.insert {latlng: e.latlng}
-  #           #Session.set "newPost", id
-  #           $("#title").collapse('hide')
-  #           if $("#done").hasClass('in')
-  #             $("#done").collapse("toggle")
-  #           $("#content-choose").collapse('show')
-  #         clickCount = 0
-  #       , 500
-
-
-
-
-  # # watch the markers collection
-  # tmpQuery = TmpMark.find({})
-  # tmpQuery.observe
-  #   added: (mark) ->
-  #     #ii = myIconsList[Math.floor Math.random() * (4)]
-  #     root.tmpMarker = L.marker(mark.latlng, {icon: tmpIcon, opacity:1})
-  #     .addTo(root.map)
-
-
-  # # watch the markers collection
-  # query = Markers.find({})
-  # query.observe
-  #   added: (mark) ->
-  #     #ii = myIconsList[Math.floor Math.random() * (4)]
-  #     root.newMarker = L.marker(mark.latlng, {icon: ( -> 
-  #       switch mark.choice
-  #         when "#choice-1" then choice1
-  #         when "#choice-2" then choice2
-  #         when "#choice-3" then choice3
-  #       )()
-  #       ,
-  #       opacity:1})
-  #     .addTo(root.map)
-  #     root.newMarker.bindPopup("Spazio riservato alla PA, utile per fornire indicazioni relative all'intervento",{"closeOnClick":false, "closeButton":true})
+  period = 1000 * 60 * 10
+  query = Notes.find({ 
+    "date": { "$gte": Date.now() - period },
+    "coordinates": { $ne: undefined }
+  })
+  query.observe({
+    added: (document) ->
+      L.marker(document.coordinates, {icon: getIcon(document)}).addTo(map)
+  })

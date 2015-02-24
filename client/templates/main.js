@@ -98,6 +98,7 @@ Template.main.rendered = function() {
 
         function removeModalHandler() {
           Session.set('date', undefined);
+          Session.set("coordinates", undefined);
           removeModal( classie.has( el, 'md-setperspective' ) ); 
         }
 
