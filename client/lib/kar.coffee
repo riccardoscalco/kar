@@ -1,4 +1,14 @@
-@kar = {}
+@kar = {
+  pulse : () ->
+    $("#plus").css('-webkit-animation','pulse 0.3s')
+    $("#plus").css('-moz-animation','pulse 0.3s')
+    $("#plus").css('animation','pulse 0.3s')
+    window.setTimeout(() ->
+      $("#plus").css('-webkit-animation','none')
+      $("#plus").css('-moz-animation','none')
+      $("#plus").css('animation','none')
+    ,400)
+}
 
 mobilecheck = () ->
     check = false;

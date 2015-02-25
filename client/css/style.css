@@ -362,6 +362,30 @@ input:focus:-moz-placeholder {
   }
 }
 
+@-moz-keyframes pulse {
+  0%{
+    -moz-transform: scale(1);
+  }
+  50%{
+    -moz-transform: scale(1.8);
+  }
+  100%{
+    -moz-transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%{
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(1.8);
+  }
+  100%{
+    transform: scale(1);
+  }
+}
+
 .category_1 {
 	stroke: #0488A5;
 	background-color: #0488A5;

@@ -145,10 +145,7 @@ kar.horizon = () ->
           if not mobile
             kar.toggleModal(d3.event)
           else
-            $("#plus").css('-webkit-animation','pulse 0.3s')
-            window.setTimeout(
-              () -> $("#plus").css('-webkit-animation','none')
-            ,400)
+            kar.pulse()
         )
     
     Tracker.autorun(update)
