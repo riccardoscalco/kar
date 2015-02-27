@@ -111,6 +111,34 @@ header {
   top: 0;
 }
 
+.modalTiledMap {
+  z-index: 100;
+  position: absolute;
+  margin: auto;
+  width: 100%;
+  height: 66%;
+  border-left: 1px solid #464655;
+  border-right: 1px solid #464655;
+}
+
+.toggle-map {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+@media screen and (max-width: 640px) {
+  .modalTiledMap {
+    height: 74%;
+  }
+  .toggle-map {
+    right: 8px;
+    top: 8px;
+  }
+}
+
 .note-item {
 	margin: 0em;
   border-bottom: 2px solid rgba(255,255,255,0.1);

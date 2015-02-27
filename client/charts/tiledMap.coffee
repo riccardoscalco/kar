@@ -8,15 +8,6 @@ kar.tiledMap = () ->
 
   map = (selection) ->
 
-    # # resize the layout
-    # resize = () ->
-    #   newHeight = $(root).height()
-    #   $("#"+selection).css("height", newHeight)
-    # # resize on load
-    # resize()
-    # # resize on resize of root
-    # $(root).resize => resize()
-
     map = L.map(selection, {
       doubleClickZoom: false
       zoomControl: false
@@ -27,7 +18,6 @@ kar.tiledMap = () ->
     }).setView([45.47, 9.11], 11);
 
     L.tileLayer.provider('OpenStreetMap.BlackAndWhite').addTo(map);
-    #L.tileLayer.provider('Stamen.TonerLite').addTo(map);
 
     Icons = L.Icon.extend
       options:
